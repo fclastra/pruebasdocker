@@ -1,0 +1,34 @@
+version: "3.9"
+networks:
+      default:
+        enable_ipv6: true
+        
+
+services:
+   web:
+    image: httpd:2.4
+    ports:
+	- "8080:80"
+  
+    volumes:
+         - ./php_code/:/var/www/html/
+
+   php:
+     build: ./php_code/
+     expose:
+       - 9000
+     volumes:
+        - ./php_code/:/var/www/html/
+
+
+   db:    
+      image: mariadb  
+      volumes: 
+        -    mysql-data:/var/lib/mysql
+      environment:  
+       MYSQL_ROOT_PASSWORD: mariadb
+       MYSQL_DATABASE: ecomdb 
+
+
+volumes:
+    mysql-data:

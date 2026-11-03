@@ -1,0 +1,35 @@
+version: "3.9"
+
+services: 
+  web: 
+    build: .
+    ports:
+      - "8080:80"
+    volumes: 
+       - ./html/:/var/www/html/
+    depends_on:
+      - db
+    networks:
+      - red-proyecto-php
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: mi_base_de_datos
+      MYSQL_USER: usuario_web
+      MYSQL_PASSWORD: tu_password
+    volumes:
+      - intro_linux_test:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - red-proyecto-php
+
+volumes:
+  intro_linux_test:
+
+networks:
+  red-proyecto-php:
+    driver: bridge
